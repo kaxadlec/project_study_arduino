@@ -34,7 +34,7 @@ void setupLEDs() { // LED initialization function
   }
 }
 
-void setupHardware() {  // Count reset and ultrasonic pin setup
+void setupHardware() { // Count reset ultrasonic pin setup
   pinMode(reset_pin, INPUT);
   pinMode(trig_pin, OUTPUT);
   pinMode(echo_pin, INPUT);
@@ -52,7 +52,7 @@ void setupWiFi() {
   Serial.print("Connected to ");
   Serial.println(ssid);
   Serial.print("IP address: ");
-  Serial.println(WiFi.localIP()); // Print assigned IP address when it is connected
+  Serial.println(WiFi.localIP()); // Print assigned IP address when it connected
 }
 
 void setup() {
@@ -84,8 +84,6 @@ void controlLEDs() {  // LED control function
 
 void readPhotoResister(){ // Photoresistor measurement function
   sensor_value = analogRead(photoresister_sensor);   // Save the value measured by the photoresistor sensor
-  // Serial.print("Photoresister: ");
-  // Serial.println(sensor_value);
 } 
 
 void readTemperature() { // Temperature measurement function and conversion to Celsius and Fahrenheit
@@ -95,11 +93,6 @@ void readTemperature() { // Temperature measurement function and conversion to C
   T = (1.0 / (c1 + c2 * logR2 + c3 * logR2 * logR2 * logR2));
   Tc = T - 273.15;
   Tf = (Tc * 9.0/5.0) + 32.0;
-  // Serial.print("Temperature: ");
-  // Serial.print(Tc); // Celsius temperature
-  // Serial.print(" C,  ");
-  // Serial.print(Tf); // Fahrenheit temperature
-  // Serial.println(" F");
 }
 
 void updateCountAndDistance() { // Count objects recognized through the ultrasonic sensor
@@ -112,9 +105,6 @@ void updateCountAndDistance() { // Count objects recognized through the ultrason
 
     duration = pulseIn (echo_pin, HIGH);        
     distance = ((34 * duration) / 1000) / 2;    
-    // Serial.print("distance : ");
-    // Serial.print(distance);
-    // Serial.println("cm");
 
     if(distance > 2 && distance < 5)            
     {
@@ -126,9 +116,6 @@ void updateCountAndDistance() { // Count objects recognized through the ultrason
         }
     }
      resetButtonCheck();  // Call reset button function
-    // Serial.print("count : ");             
-    // Serial.println(count);
-    // Serial.println("---------------------");
 }
 
 void resetButtonCheck() { // Reset button function (resetting the count variable here)
@@ -151,14 +138,14 @@ void displayOLED() {  // OLED display function
   oled.display();
 }
 
-void handleRootEvent() {           // Function to access through the root URL
-  Serial.println("Main page from ");     // Info to access the page with serial
-  String clientIP = server.client().remoteIP().toString(); // Client's IP address 
-  String maskedIP = maskIPAddress(clientIP);    // Variable to mask part of the customer's IP address
+void handleRootEvent() {           // Function for handling root URL access
+  Serial.println("Main page from ");     // Print info about accessing the page through serial
+  String clientIP = server.client().remoteIP().toString();  // Get client's IP address
+  String maskedIP = maskIPAddress(clientIP);    // Mask a portion of the client's IP address
 
   readTemperature(); // Call temperature measurement function
-  readPhotoResister();
-  updateCountAndDistance();
+  readPhotoResister(); // Call photoresister measurement function
+  updateCountAndDistance(); // Call object count function
 
   String message = "HyeonJin SmartFactory WebServer\n";
   message += "---------------------------------\n";
@@ -174,7 +161,7 @@ void handleRootEvent() {           // Function to access through the root URL
 String maskIPAddress(String ip_address) {
   String masked_ip;
 
-  // IP 주소의 처음과 끝을 제외한 부분을 ***로 바꿉니다.
+  // Replace portions of the IP address excluding the beginning and end with ***
   int first_dot = ip_address.indexOf('.');
   int last_dot = ip_address.lastIndexOf('.');
 
