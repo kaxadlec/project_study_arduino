@@ -3,8 +3,8 @@
 #include <WiFiClient.h>
 #include <WebServer.h>
 
-const char* ssid = "iptime_501";  // WIFI ID
-const char* password = "11238591";  // WIFI PW
+const char* ssid = "KEB_INHA";  // WIFI ID
+const char* password = "inha4885";  // WIFI PW
 
 OLED_U8G2 oled; // Create an OLED object
 WebServer server(80);  // Create a web server object
@@ -14,6 +14,8 @@ WebServer server(80);  // Create a web server object
 //-----------------------------------------------------------------------------------------
 int leds[] = {D2, D3, D4, D5}; // LED pin number array (red, blue, green, yellow)
 int num_leds = 4;              // Number of LEDs
+int buttons[] = {D6, D7, D8, D9}; // Button pin number array (red, blue, green, yellow)
+int num_buttons = 4;              // Number of Buttons
 int photoresister_sensor = A1; // Photoresistor sensor
 int temperature_sensor = A2;   // Temperature sensor
 // Variables for calculating the current temperature
